@@ -6,7 +6,7 @@ services:
     container_name: prato-pronto-mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: prato_pronto_db
+      MYSQL_DATABASE: db_prato_pronto
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
