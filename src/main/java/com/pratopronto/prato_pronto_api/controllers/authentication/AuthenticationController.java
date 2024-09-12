@@ -3,6 +3,9 @@ package com.pratopronto.prato_pronto_api.controllers.authentication;
 import com.pratopronto.prato_pronto_api.usecases.consumerSignUp.ConsumerSignUpInput;
 import com.pratopronto.prato_pronto_api.usecases.consumerSignUp.ConsumerSignUpOutput;
 import com.pratopronto.prato_pronto_api.usecases.consumerSignUp.ConsumerSignUpUseCase;
+import com.pratopronto.prato_pronto_api.usecases.restaurantSignUp.RestaurantSignUpInput;
+import com.pratopronto.prato_pronto_api.usecases.restaurantSignUp.RestaurantSignUpOutput;
+import com.pratopronto.prato_pronto_api.usecases.restaurantSignUp.RestaurantSignUpUseCase;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInUseCase;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInInputDto;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInOutputDto;
@@ -23,16 +26,21 @@ public class AuthenticationController {
     @Autowired
     private ConsumerSignUpUseCase consumerSignUpUseCase;
 
+    @Autowired
+    RestaurantSignUpUseCase restaurantSignUpUseCase;
+
     @PostMapping("/signIn")
     public ResponseEntity<SignInOutputDto> signIn(@RequestBody SignInInputDto data) {
         return signInUseCase.execute(data);
     }
 
     @PostMapping("/signUp/consumer")
-    public ResponseEntity<ConsumerSignUpOutput> signUpConsumer(@RequestBody ConsumerSignUpInput data) {
-
-        System.out.println(data.toString());
-
+    public ResponseEntity<ConsumerSignUpOutput> consumerSignUp(@RequestBody ConsumerSignUpInput data) {
         return consumerSignUpUseCase.execute(data);
+    }
+
+    @PostMapping("/signUp/restaurant")
+    public ResponseEntity<RestaurantSignUpOutput> restaurantSignUp(@RequestBody RestaurantSignUpInput data) {
+        return restaurantSignUpUseCase.execute(data);
     }
 }

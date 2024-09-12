@@ -38,11 +38,12 @@ create table restaurante(
 	id char(36) default (uuid()),
     nome varchar (50) not null,
     tipo_culinaria varchar(50),
-	avaliacao decimal (2,1),
+	avaliacao decimal (2,1) default 0,
     
 	constraint pk_restaurante primary key (id),
     constraint fk_cliente_restaurante foreign key (id) references cliente(id) on delete cascade
 );
+
 
 create table horarios(
 	id char(36) default (uuid()),
