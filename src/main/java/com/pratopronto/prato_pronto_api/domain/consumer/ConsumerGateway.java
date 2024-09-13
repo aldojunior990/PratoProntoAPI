@@ -5,11 +5,11 @@ import java.util.UUID;
 
 public interface ConsumerGateway {
 
-    void save(Consumer consumer) throws SQLException;
+    void save(Consumer consumer);
 
-    void delete(UUID id) throws SQLException;
+    void delete(UUID id);
 
-    void update(Consumer consumer) throws SQLException;
+    void update(Consumer consumer);
 
-    Consumer findByEmail(String email) throws SQLException;
+    Consumer findByEmail(String email);
 }

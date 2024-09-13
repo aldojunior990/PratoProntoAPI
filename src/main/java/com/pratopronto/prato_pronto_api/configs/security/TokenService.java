@@ -31,7 +31,7 @@ public class TokenService {
         }
     }
 
-    public String validateTokenWithEmail(String token) {
+    public String validateTokenAndGetEmail(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm).withIssuer(issuer).build().verify(token).getSubject();
