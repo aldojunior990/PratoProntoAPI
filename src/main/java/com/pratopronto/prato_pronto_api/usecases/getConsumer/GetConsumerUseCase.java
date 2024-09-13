@@ -20,10 +20,8 @@ public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, R
 
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private ConsumerGateway consumerGateway;
-
 
     @Override
     public ResponseEntity<GetConsumerOutput> execute(HttpServletRequest input) {
