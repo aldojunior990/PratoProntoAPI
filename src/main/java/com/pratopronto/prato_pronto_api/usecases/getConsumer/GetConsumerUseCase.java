@@ -47,5 +47,5 @@ public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, R
                 consumer.getCpf()));
     }
 
-    //teste
+    //teste2
 }
