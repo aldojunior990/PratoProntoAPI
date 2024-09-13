@@ -10,7 +10,6 @@ create table cliente(
 );
 
 
-
 create table consumidor(
 	id char(36) not null,
     nome varchar (50) not null,

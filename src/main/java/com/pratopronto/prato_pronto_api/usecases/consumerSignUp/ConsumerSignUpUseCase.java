@@ -29,10 +29,15 @@ public class ConsumerSignUpUseCase implements UseCaseContract<ConsumerSignUpInpu
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(new ConsumerSignUpOutput("Consumidor já cadastrado"));
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
+
             Customer customer = Customer.create(input.email(), encryptedPassword);
+
             Consumer consumer = Consumer.with(customer.getId(), input.name(), input.lastName(), input.cpf());
+
             customerRepository.save(customer);
+
             consumerRepository.save(consumer);
+
             return ResponseEntity.ok().build();
         } catch (SQLException err) {
             err.printStackTrace();
