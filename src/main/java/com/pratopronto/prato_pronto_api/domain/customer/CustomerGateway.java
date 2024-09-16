@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public interface CustomerGateway {
 
-    void save(Customer customer) throws SQLException;
+    void save(Customer customer);
 
-    UserDetails findByEmail(String email) throws SQLException ;
+    UserDetails findByEmail(String email);
 
 }

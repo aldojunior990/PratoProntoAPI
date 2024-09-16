@@ -1,11 +1,11 @@
 package com.pratopronto.prato_pronto_api.controllers.authentication;
 
-import com.pratopronto.prato_pronto_api.usecases.consumerSignUp.ConsumerSignUpInput;
-import com.pratopronto.prato_pronto_api.usecases.consumerSignUp.ConsumerSignUpOutput;
-import com.pratopronto.prato_pronto_api.usecases.consumerSignUp.ConsumerSignUpUseCase;
-import com.pratopronto.prato_pronto_api.usecases.restaurantSignUp.RestaurantSignUpInput;
-import com.pratopronto.prato_pronto_api.usecases.restaurantSignUp.RestaurantSignUpOutput;
-import com.pratopronto.prato_pronto_api.usecases.restaurantSignUp.RestaurantSignUpUseCase;
+import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpInput;
+import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpOutput;
+import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpUseCase;
+import com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp.RestaurantSignUpInput;
+import com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp.RestaurantSignUpOutput;
+import com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp.RestaurantSignUpUseCase;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInUseCase;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInInputDto;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInOutputDto;

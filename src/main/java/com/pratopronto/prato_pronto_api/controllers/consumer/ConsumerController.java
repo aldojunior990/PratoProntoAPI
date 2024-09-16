@@ -1,7 +1,7 @@
 package com.pratopronto.prato_pronto_api.controllers.consumer;
 
-import com.pratopronto.prato_pronto_api.usecases.getConsumer.GetConsumerUseCase;
-import com.pratopronto.prato_pronto_api.usecases.getConsumer.GetConsumerOutput;
+import com.pratopronto.prato_pronto_api.usecases.consumer.getConsumer.GetConsumerUseCase;
+import com.pratopronto.prato_pronto_api.usecases.consumer.getConsumer.GetConsumerOutput;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

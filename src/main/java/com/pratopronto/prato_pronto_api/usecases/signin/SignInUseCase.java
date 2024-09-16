@@ -27,19 +27,15 @@ public class SignInUseCase implements UseCaseContract<SignInInputDto, ResponseEn
 
     @Override
     public ResponseEntity<SignInOutputDto> execute(SignInInputDto input) {
-        try {
-            var customerHasAccount = repository.findByEmail(input.email());
-            if (customerHasAccount != null) {
-                var customer = new UsernamePasswordAuthenticationToken(input.email(), input.password());
-                var auth = this.authenticationManager.authenticate(customer);
-                var token = tokenService.generateToken((Customer) auth.getPrincipal());
-                return ResponseEntity.ok(new SignInOutputDto(token));
-            }
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new SignInOutputDto("Usuário não encontrado"));
-        } catch (SQLException err) {
-            err.printStackTrace();
-            return ResponseEntity.internalServerError().body(new SignInOutputDto("Erro ao realizar login"));
+
+        var customerHasAccount = repository.findByEmail(input.email());
+        if (customerHasAccount != null) {
+            var customer = new UsernamePasswordAuthenticationToken(input.email(), input.password());
+            var auth = this.authenticationManager.authenticate(customer);
+            var token = tokenService.generateToken((Customer) auth.getPrincipal());
+            return ResponseEntity.ok(new SignInOutputDto(token));
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new SignInOutputDto("Usuário não encontrado"));
 
 
     }

@@ -1,4 +1,4 @@
-package com.pratopronto.prato_pronto_api.usecases.getConsumer;
+package com.pratopronto.prato_pronto_api.usecases.consumer.getConsumer;
 
 import com.pratopronto.prato_pronto_api.configs.security.SecurityFilter;
 import com.pratopronto.prato_pronto_api.configs.security.TokenService;
@@ -7,7 +7,6 @@ import com.pratopronto.prato_pronto_api.domain.consumer.ConsumerGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,6 @@ public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, R
         String email = tokenService.validateTokenAndGetEmail(token);
 
         Consumer consumer = consumerGateway.findByEmail(email);
-
-        System.out.println(consumer);
 
         if (consumer == null) return ResponseEntity.internalServerError().build();
 

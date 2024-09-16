@@ -1,4 +1,4 @@
-package com.pratopronto.prato_pronto_api.usecases.restaurantSignUp;
+package com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp;
 
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
 import com.pratopronto.prato_pronto_api.domain.customer.CustomerGateway;

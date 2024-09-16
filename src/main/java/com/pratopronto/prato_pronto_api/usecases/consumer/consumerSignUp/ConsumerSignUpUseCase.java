@@ -1,4 +1,4 @@
-package com.pratopronto.prato_pronto_api.usecases.consumerSignUp;
+package com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp;
 
 import com.pratopronto.prato_pronto_api.domain.consumer.Consumer;
 import com.pratopronto.prato_pronto_api.domain.consumer.ConsumerGateway;
@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-
 @Service
 public class ConsumerSignUpUseCase implements UseCaseContract<ConsumerSignUpInput, ResponseEntity<ConsumerSignUpOutput>> {
 
@@ -24,24 +22,21 @@ public class ConsumerSignUpUseCase implements UseCaseContract<ConsumerSignUpInpu
 
     @Override
     public ResponseEntity<ConsumerSignUpOutput> execute(ConsumerSignUpInput input) {
-        try {
-            if (customerRepository.findByEmail(input.email()) != null)
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(new ConsumerSignUpOutput("Consumidor já cadastrado"));
 
-            String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
+        if (customerRepository.findByEmail(input.email()) != null)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ConsumerSignUpOutput("Consumidor já cadastrado"));
 
-            Customer customer = Customer.create(input.email(), encryptedPassword);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
 
-            Consumer consumer = Consumer.with(customer.getId(), input.name(), input.lastName(), input.cpf());
+        Customer customer = Customer.create(input.email(), encryptedPassword);
 
-            customerRepository.save(customer);
+        Consumer consumer = Consumer.with(customer.getId(), input.name(), input.lastName(), input.cpf());
 
-            consumerRepository.save(consumer);
+        customerRepository.save(customer);
 
-            return ResponseEntity.ok().build();
-        } catch (SQLException err) {
-            err.printStackTrace();
-            return ResponseEntity.internalServerError().body(new ConsumerSignUpOutput("Ocorreu um erro ao tentar cadastrar o consumidor"));
-        }
+        consumerRepository.save(consumer);
+
+        return ResponseEntity.ok().build();
+
     }
 }

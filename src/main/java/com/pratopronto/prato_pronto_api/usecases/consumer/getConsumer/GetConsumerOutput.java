@@ -1,4 +1,4 @@
-package com.pratopronto.prato_pronto_api.usecases.getConsumer;
+package com.pratopronto.prato_pronto_api.usecases.consumer.getConsumer;
 
 import java.util.UUID;
 

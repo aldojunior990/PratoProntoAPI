@@ -117,50 +117,25 @@ create table endereco(
     estado varchar (50) not null,
     pais varchar (50) not null,
     cep char (9),
+    id_cliente char(36) not null,
     
-    constraint pk_endereco primary key(id)
+    
+    constraint pk_endereco primary key(id),
+    constraint fk_cliente_endereco foreign key (id_cliente) references cliente(id) on delete cascade
 );
 
-create table endereco_consumidor(
-	id_consumidor char(36) not null,
-    id_endereco char(36) not null,
-    
-    constraint pk_endereco_consumidor primary key(id_consumidor, id_endereco),
-    constraint fk_consumidor_endereco foreign key (id_consumidor) references consumidor(id) on delete cascade,
-    constraint fk_endereco_consumidor foreign key (id_endereco) references endereco(id) on delete cascade
-);
 
-create table endereco_restaurante(
-	id_restaurante char(36) not null,
-    id_endereco char(36) not null,
-    
-    constraint pk_endereco_restaurante primary key(id_restaurante, id_endereco),
-    constraint fk_restaurante_endereco foreign key (id_restaurante) references restaurante(id) on delete cascade,
-    constraint fk_endereco_restaurante foreign key (id_endereco) references endereco(id) on delete cascade
-);
+
 
 create table contato(
 	id char(36) not null default (uuid()),
 	numero varchar(20) not null,
     tipo varchar (10),
+    id_cliente char(36) not null,
 
-    constraint pk_contato primary key(id)
+    constraint pk_contato primary key(id),
+    constraint fk_cliente_contato foreign key (id_cliente) references cliente(id) on delete cascade
 );
 
-create table contato_consumidor(
-	id_consumidor char(36) not null,
-    id_contato char(36) not null,
-    
-    constraint pk_endereco_consumidor primary key(id_consumidor, id_contato),
-    constraint fk_consumidor_contato foreign key (id_consumidor) references consumidor(id) on delete cascade,
-    constraint fk_contato_consumidor foreign key (id_contato) references contato(id) on delete cascade
-);
 
-create table contato_restaurante(
-	id_restaurante char(36) not null,
-    id_contato char(36) not null,
-    
-    constraint pk_contato_restaurante primary key(id_restaurante, id_contato),
-    constraint fk_restaurante_contato foreign key (id_restaurante) references restaurante(id) on delete cascade,
-    constraint fk_contato_restaurante foreign key (id_contato) references contato(id) on delete cascade
-);
+
