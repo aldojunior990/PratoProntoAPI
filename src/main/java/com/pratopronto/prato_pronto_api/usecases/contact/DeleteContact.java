@@ -1,6 +1,6 @@
-package com.pratopronto.prato_pronto_api.usecases.address;
+package com.pratopronto.prato_pronto_api.usecases.contact;
 
-import com.pratopronto.prato_pronto_api.domain.address.AddressGateway;
+import com.pratopronto.prato_pronto_api.domain.contact.ContactGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +10,18 @@ import java.util.UUID;
 
 
 @Service
-public class DeleteAddress implements UseCaseContract<String, ResponseEntity<String>> {
+public class DeleteContact implements UseCaseContract<String, ResponseEntity<String>> {
+
+
     @Autowired
-    private AddressGateway addressGateway;
+    private ContactGateway contactGateway;
 
     @Override
-    public ResponseEntity<String> execute(String data) {
+    public ResponseEntity<String> execute(String id) {
         try {
-            Boolean isDeleted = addressGateway.delete(UUID.fromString(data));
+            Boolean isDeleted = contactGateway.delete(UUID.fromString(id));
             if (!isDeleted) return ResponseEntity.badRequest().body("Não foi possivel deletar");
-            return ResponseEntity.ok("Endereço deletado com sucesso");
+            return ResponseEntity.ok("Contato deletado com sucesso");
         } catch (Exception err) {
             return ResponseEntity.internalServerError().body(err.getMessage());
         }
