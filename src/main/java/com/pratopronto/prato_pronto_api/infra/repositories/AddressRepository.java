@@ -61,7 +61,7 @@ public class AddressRepository implements AddressGateway {
 
         String sql = "select * from endereco E where E.id_cliente = ?";
         List<Address> addresses = new ArrayList<>();
-
+        String teste = "teste";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setString(1, customer.getId().toString());
 
