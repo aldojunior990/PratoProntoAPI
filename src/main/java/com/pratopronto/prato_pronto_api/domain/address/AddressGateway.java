@@ -9,11 +9,11 @@ public interface AddressGateway {
 
     void save(Address address);
 
-    void update(Address address);
+    Boolean update(Address address);
 
-    void delete(UUID id);
+    Boolean delete(UUID id);
 
-    Address findById();
+    Address findById(UUID id, Customer customer);
 
     List<Address> findAllByCostumer(Customer customer);
 

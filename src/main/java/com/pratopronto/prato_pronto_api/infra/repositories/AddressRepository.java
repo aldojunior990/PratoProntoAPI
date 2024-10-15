@@ -42,31 +42,82 @@ public class AddressRepository implements AddressGateway {
     }
 
     @Override
-    public void update(Address address) {
+    public Boolean update(Address address) {
 
+        String sql = "UPDATE endereco SET logradouro = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, id_cliente = ? WHERE id = ?";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, address.getPublicPlace());
+            stm.setInt(2, address.getNumber());
+            stm.setString(3, address.getComplement());
+            stm.setString(4, address.getNeighborhood());
+            stm.setString(5, address.getCity());
+            stm.setString(6, address.getState());
+            stm.setString(7, address.getCountry());
+            stm.setString(8, address.getCep());
+            stm.setString(9, address.getCustomer().getId().toString());
+            stm.setString(10, address.getId().toString());
+            int rowsAffected = stm.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public void delete(UUID id) {
-
+    public Boolean delete(UUID id) {
+        String sql = "DELETE FROM endereco WHERE id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, id.toString());
+            int rowsAffected = stm.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return false;
+        }
     }
 
+
     @Override
-    public Address findById() {
-        return null;
+    public Address findById(UUID id, Customer customer) {
+
+        String sql = "select * from endereco E where E.id = ?";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, id.toString());
+            ResultSet rs = stm.executeQuery();
+            Address address = null;
+
+            while (rs.next()) {
+                String addressId = rs.getString("id");
+                String publicPlace = rs.getString("logradouro");
+                Integer number = rs.getInt("numero");
+                String complement = rs.getString("complemento");
+                String neighborhood = rs.getString("bairro");
+                String city = rs.getString("cidade");
+                String state = rs.getString("estado");
+                String country = rs.getString("pais");
+                String cep = rs.getString("cep");
+                address = Address.with(UUID.fromString(addressId), publicPlace, number, complement, neighborhood, state, city, country, cep, customer);
+            }
+            rs.close();
+
+            return address;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public List<Address> findAllByCostumer(Customer customer) {
-
         String sql = "select * from endereco E where E.id_cliente = ?";
         List<Address> addresses = new ArrayList<>();
-        String teste = "teste";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setString(1, customer.getId().toString());
-
             ResultSet rs = stm.executeQuery();
-
             while (rs.next()) {
                 String id = rs.getString("id");
                 String publicPlace = rs.getString("logradouro");
@@ -80,13 +131,11 @@ public class AddressRepository implements AddressGateway {
                 Address address = Address.with(UUID.fromString(id), publicPlace, number, complement, neighborhood, state, city, country, cep, customer);
                 addresses.add(address);
             }
-
             rs.close();
             return addresses;
         } catch (Exception err) {
             err.printStackTrace();
             return new ArrayList<>();
         }
-
     }
 }

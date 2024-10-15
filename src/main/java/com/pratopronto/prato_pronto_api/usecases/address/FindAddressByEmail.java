@@ -1,4 +1,4 @@
-package com.pratopronto.prato_pronto_api.usecases.address.findAddresByEmail;
+package com.pratopronto.prato_pronto_api.usecases.address;
 
 import com.pratopronto.prato_pronto_api.configs.security.SecurityFilter;
 import com.pratopronto.prato_pronto_api.configs.security.TokenService;
@@ -7,7 +7,7 @@ import com.pratopronto.prato_pronto_api.domain.address.AddressGateway;
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
 import com.pratopronto.prato_pronto_api.domain.customer.CustomerGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
-import com.pratopronto.prato_pronto_api.usecases.address.AddressDTO;
+import com.pratopronto.prato_pronto_api.usecases.address.dtos.AddressDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FindAddressByEmailUseCase implements UseCaseContract<HttpServletRequest, ResponseEntity<List<AddressDTO>>> {
+public class FindAddressByEmail implements UseCaseContract<HttpServletRequest, ResponseEntity<List<AddressDTO>>> {
 
     @Autowired
     private AddressGateway addressGateway;

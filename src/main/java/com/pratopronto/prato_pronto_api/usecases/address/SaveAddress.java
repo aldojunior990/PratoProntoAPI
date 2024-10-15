@@ -1,4 +1,4 @@
-package com.pratopronto.prato_pronto_api.usecases.address.saveNewAddress;
+package com.pratopronto.prato_pronto_api.usecases.address;
 
 import com.pratopronto.prato_pronto_api.configs.security.SecurityFilter;
 import com.pratopronto.prato_pronto_api.configs.security.TokenService;
@@ -7,13 +7,14 @@ import com.pratopronto.prato_pronto_api.domain.address.AddressGateway;
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
 import com.pratopronto.prato_pronto_api.domain.customer.CustomerGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
+import com.pratopronto.prato_pronto_api.usecases.address.dtos.FindAddressInputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SaveNewAddressUseCase implements UseCaseContract<SaveNewAddressInput, ResponseEntity<SaveNewAddressOutput>> {
+public class SaveAddress implements UseCaseContract<FindAddressInputDTO, ResponseEntity<String>> {
 
     @Autowired
     private SecurityFilter securityFilter;
@@ -29,7 +30,7 @@ public class SaveNewAddressUseCase implements UseCaseContract<SaveNewAddressInpu
 
 
     @Override
-    public ResponseEntity<SaveNewAddressOutput> execute(SaveNewAddressInput input) {
+    public ResponseEntity<String> execute(FindAddressInputDTO input) {
         String token = securityFilter.recoverToken(input.request());
 
         if (token == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -52,13 +53,13 @@ public class SaveNewAddressUseCase implements UseCaseContract<SaveNewAddressInpu
 
                 addressGateway.save(address);
 
-                return ResponseEntity.ok(new SaveNewAddressOutput("Endereço cadastrado com sucesso"));
+                return ResponseEntity.ok("Endereço cadastrado com sucesso");
             } catch (Exception err) {
                 err.printStackTrace();
-                return ResponseEntity.internalServerError().body(new SaveNewAddressOutput(err.getMessage()));
+                return ResponseEntity.internalServerError().body(err.getMessage());
             }
         }
 
-        return ResponseEntity.internalServerError().body(new SaveNewAddressOutput("Ocorreu um erro ao inserir o endereço"));
+        return ResponseEntity.internalServerError().body("Ocorreu um erro ao inserir o endereço");
     }
 }
