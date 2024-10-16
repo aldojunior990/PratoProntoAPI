@@ -1,20 +1,19 @@
-package com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp;
+package com.pratopronto.prato_pronto_api.usecases.restaurant;
 
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
 import com.pratopronto.prato_pronto_api.domain.customer.CustomerGateway;
 import com.pratopronto.prato_pronto_api.domain.restaurant.Restaurant;
 import com.pratopronto.prato_pronto_api.domain.restaurant.RestaurantGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
+import com.pratopronto.prato_pronto_api.usecases.restaurant.dtos.SignUpRestaurantDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-
 
 @Service
-public class RestaurantSignUpUseCase implements UseCaseContract<RestaurantSignUpInput, ResponseEntity<RestaurantSignUpOutput>> {
+public class RestaurantSignUp implements UseCaseContract<SignUpRestaurantDTO, ResponseEntity<String>> {
 
     @Autowired
     private RestaurantGateway restaurantGateway;
@@ -23,7 +22,7 @@ public class RestaurantSignUpUseCase implements UseCaseContract<RestaurantSignUp
     private CustomerGateway customerGateway;
 
     @Override
-    public ResponseEntity<RestaurantSignUpOutput> execute(RestaurantSignUpInput input) {
+    public ResponseEntity<String> execute(SignUpRestaurantDTO input) {
         try {
             String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
 
@@ -33,13 +32,15 @@ public class RestaurantSignUpUseCase implements UseCaseContract<RestaurantSignUp
 
             customerGateway.save(customer);
 
-            restaurantGateway.save(restaurant);
+            Boolean isSaved = restaurantGateway.save(restaurant);
 
-            return ResponseEntity.ok().body(new RestaurantSignUpOutput("Restaurante cadastrado com sucesso"));
-        } catch (SQLException err) {
+            if (!isSaved) return ResponseEntity.badRequest().body("Não foi possivel cadastrar o restaurante");
+
+            return ResponseEntity.ok().body("Restaurante cadastrado com sucesso");
+        } catch (Exception err) {
             err.printStackTrace();
             return ResponseEntity.internalServerError().
-                    body(new RestaurantSignUpOutput("Ocorreu um erro ao tentar cadastrar o restaurante"));
+                    body("Ocorreu um erro ao tentar cadastrar o restaurante");
         }
     }
 }

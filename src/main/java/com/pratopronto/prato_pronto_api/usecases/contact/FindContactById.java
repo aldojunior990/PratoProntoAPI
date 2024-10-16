@@ -5,7 +5,7 @@ import com.pratopronto.prato_pronto_api.domain.contact.ContactGateway;
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
 import com.pratopronto.prato_pronto_api.usecases.contact.dtos.ContactDTO;
-import com.pratopronto.prato_pronto_api.usecases.contact.dtos.HttpRequestInputDTO;
+import com.pratopronto.prato_pronto_api.usecases.HttpRequestDTO;
 import com.pratopronto.prato_pronto_api.utils.ExtractTokenAndReturnCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class FindContactById implements UseCaseContract<HttpRequestInputDTO<String>, ResponseEntity<ContactDTO>> {
+public class FindContactById implements UseCaseContract<HttpRequestDTO<String>, ResponseEntity<ContactDTO>> {
 
     @Autowired
     private ExtractTokenAndReturnCustomer extractTokenAndReturnCustomer;
@@ -23,7 +23,7 @@ public class FindContactById implements UseCaseContract<HttpRequestInputDTO<Stri
     private ContactGateway contactGateway;
 
     @Override
-    public ResponseEntity<ContactDTO> execute(HttpRequestInputDTO<String> data) {
+    public ResponseEntity<ContactDTO> execute(HttpRequestDTO<String> data) {
         try {
             Customer customer = extractTokenAndReturnCustomer.execute(data.request());
 

@@ -1,15 +1,18 @@
 package com.pratopronto.prato_pronto_api.domain.restaurant;
 
-import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 public interface RestaurantGateway {
 
-    void save(Restaurant restaurant) throws SQLException;
+    Boolean save(Restaurant restaurant);
 
-    void update(Restaurant restaurant) throws SQLException;
+    Boolean update(Restaurant restaurant);
 
-    Restaurant findByEmail(String email) throws SQLException;
+    Boolean delete(UUID id);
 
-    void delete(UUID id) throws SQLException;
+    Restaurant findById(String id);
+
+    List<Restaurant> findAll();
+
 }

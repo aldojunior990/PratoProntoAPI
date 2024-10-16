@@ -2,7 +2,7 @@ package com.pratopronto.prato_pronto_api.controllers.contact;
 
 import com.pratopronto.prato_pronto_api.usecases.contact.*;
 import com.pratopronto.prato_pronto_api.usecases.contact.dtos.ContactDTO;
-import com.pratopronto.prato_pronto_api.usecases.contact.dtos.HttpRequestInputDTO;
+import com.pratopronto.prato_pronto_api.usecases.HttpRequestDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +31,12 @@ public class ContactController {
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody ContactDTO contactDTO, HttpServletRequest httpServletRequest) {
-        return saveContact.execute(new HttpRequestInputDTO<>(contactDTO, httpServletRequest));
+        return saveContact.execute(new HttpRequestDTO<>(contactDTO, httpServletRequest));
     }
 
     @PutMapping
     public ResponseEntity<String> update(@RequestBody ContactDTO contactDTO, HttpServletRequest httpServletRequest) {
-        return updateContact.execute(new HttpRequestInputDTO<>(contactDTO, httpServletRequest));
+        return updateContact.execute(new HttpRequestDTO<>(contactDTO, httpServletRequest));
     }
 
     @DeleteMapping("/{id}")
@@ -46,7 +46,7 @@ public class ContactController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ContactDTO> findById(@PathVariable String id, HttpServletRequest httpServletRequest) {
-        return findContactById.execute(new HttpRequestInputDTO<>(id, httpServletRequest));
+        return findContactById.execute(new HttpRequestDTO<>(id, httpServletRequest));
     }
 
     @GetMapping

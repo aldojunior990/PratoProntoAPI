@@ -3,12 +3,11 @@ package com.pratopronto.prato_pronto_api.controllers.authentication;
 import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpInput;
 import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpOutput;
 import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpUseCase;
-import com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp.RestaurantSignUpInput;
-import com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp.RestaurantSignUpOutput;
-import com.pratopronto.prato_pronto_api.usecases.restaurant.restaurantSignUp.RestaurantSignUpUseCase;
-import com.pratopronto.prato_pronto_api.usecases.signin.SignInUseCase;
+import com.pratopronto.prato_pronto_api.usecases.restaurant.RestaurantSignUp;
+import com.pratopronto.prato_pronto_api.usecases.restaurant.dtos.SignUpRestaurantDTO;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInInputDto;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInOutputDto;
+import com.pratopronto.prato_pronto_api.usecases.signin.SignInUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,7 @@ public class AuthenticationController {
     private ConsumerSignUpUseCase consumerSignUpUseCase;
 
     @Autowired
-    RestaurantSignUpUseCase restaurantSignUpUseCase;
+    RestaurantSignUp restaurantSignUp;
 
     @PostMapping("/signIn")
     public ResponseEntity<SignInOutputDto> signIn(@RequestBody SignInInputDto data) {
@@ -40,7 +39,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signUp/restaurant")
-    public ResponseEntity<RestaurantSignUpOutput> restaurantSignUp(@RequestBody RestaurantSignUpInput data) {
-        return restaurantSignUpUseCase.execute(data);
+    public ResponseEntity<String> restaurantSignUp(@RequestBody SignUpRestaurantDTO data) {
+        return restaurantSignUp.execute(data);
     }
 }

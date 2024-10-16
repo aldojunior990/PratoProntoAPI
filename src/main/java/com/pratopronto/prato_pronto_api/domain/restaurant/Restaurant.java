@@ -27,6 +27,7 @@ public class Restaurant {
         return new Restaurant(id, name, cookingType, grade);
     }
 
+
     public UUID getId() {
         return id;
     }
