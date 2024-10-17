@@ -1,8 +1,7 @@
 package com.pratopronto.prato_pronto_api.controllers.authentication;
 
-import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpInput;
-import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpOutput;
-import com.pratopronto.prato_pronto_api.usecases.consumer.consumerSignUp.ConsumerSignUpUseCase;
+import com.pratopronto.prato_pronto_api.usecases.consumer.ConsumerSignUpUseCase;
+import com.pratopronto.prato_pronto_api.usecases.consumer.dtos.ConsumerSignUpDTO;
 import com.pratopronto.prato_pronto_api.usecases.restaurant.RestaurantSignUp;
 import com.pratopronto.prato_pronto_api.usecases.restaurant.dtos.SignUpRestaurantDTO;
 import com.pratopronto.prato_pronto_api.usecases.signin.SignInInputDto;
@@ -34,7 +33,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signUp/consumer")
-    public ResponseEntity<ConsumerSignUpOutput> consumerSignUp(@RequestBody ConsumerSignUpInput data) {
+    public ResponseEntity<String> consumerSignUp(@RequestBody ConsumerSignUpDTO data) {
         return consumerSignUpUseCase.execute(data);
     }
 
@@ -42,4 +41,5 @@ public class AuthenticationController {
     public ResponseEntity<String> restaurantSignUp(@RequestBody SignUpRestaurantDTO data) {
         return restaurantSignUp.execute(data);
     }
+
 }

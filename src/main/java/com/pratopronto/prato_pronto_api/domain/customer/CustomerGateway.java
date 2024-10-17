@@ -8,6 +8,9 @@ public interface CustomerGateway {
 
     void save(Customer customer);
 
+    boolean delete(String id);
+
     UserDetails findByEmail(String email);
+
 
 }

@@ -53,21 +53,6 @@ public class RestaurantRepository implements RestaurantGateway {
 
     }
 
-
-    @Override
-    public Boolean delete(UUID id) {
-        String sql = "DELETE FROM restaurante WHERE id = ?";
-        try (PreparedStatement stm = connection.prepareStatement(sql)) {
-            stm.setString(1, id.toString());
-            int rowsAffected = stm.executeUpdate();
-            return rowsAffected > 0;
-        } catch (Exception err) {
-            err.printStackTrace();
-            return false;
-        }
-    }
-
-
     @Override
     public Restaurant findById(String id) {
         String sql = "select * from restaurante R where R.id = ?";

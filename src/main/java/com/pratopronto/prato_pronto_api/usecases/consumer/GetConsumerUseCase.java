@@ -1,10 +1,11 @@
-package com.pratopronto.prato_pronto_api.usecases.consumer.getConsumer;
+package com.pratopronto.prato_pronto_api.usecases.consumer;
 
 import com.pratopronto.prato_pronto_api.configs.security.SecurityFilter;
 import com.pratopronto.prato_pronto_api.configs.security.TokenService;
 import com.pratopronto.prato_pronto_api.domain.consumer.Consumer;
 import com.pratopronto.prato_pronto_api.domain.consumer.ConsumerGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
+import com.pratopronto.prato_pronto_api.usecases.consumer.dtos.ConsumerDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, ResponseEntity<GetConsumerOutput>> {
+public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, ResponseEntity<ConsumerDTO>> {
 
     @Autowired
     private SecurityFilter securityFilter;
@@ -23,7 +24,7 @@ public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, R
     private ConsumerGateway consumerGateway;
 
     @Override
-    public ResponseEntity<GetConsumerOutput> execute(HttpServletRequest input) {
+    public ResponseEntity<ConsumerDTO> execute(HttpServletRequest input) {
 
         String token = securityFilter.recoverToken(input);
 
@@ -35,7 +36,7 @@ public class GetConsumerUseCase implements UseCaseContract<HttpServletRequest, R
 
         if (consumer == null) return ResponseEntity.internalServerError().build();
 
-        return ResponseEntity.ok(new GetConsumerOutput(
+        return ResponseEntity.ok(new ConsumerDTO(
                 consumer.getId(),
                 consumer.getName(),
                 consumer.getLastName(),

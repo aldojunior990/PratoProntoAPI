@@ -18,27 +18,36 @@ public class ConsumerRepository implements ConsumerGateway {
     private Connection connection;
 
     @Override
-    public void save(Consumer consumer) {
+    public boolean save(Consumer consumer) {
         String sql = "insert into consumidor values(?, ?, ?, ?)";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setString(1, consumer.getId().toString());
             stm.setString(2, consumer.getName());
             stm.setString(3, consumer.getLastName());
             stm.setString(4, consumer.getCpf());
-            stm.executeUpdate();
+            int rowsAffected = stm.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException err) {
             err.printStackTrace();
+            return false;
         }
     }
 
-    @Override
-    public void delete(UUID id) {
-
-    }
 
     @Override
-    public void update(Consumer consumer) {
-
+    public boolean update(Consumer consumer) {
+        String sql = "update consumidor set nome=?, sobrenome=?, cpf=? where id=?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, consumer.getName());
+            stm.setString(2, consumer.getLastName());
+            stm.setString(2, consumer.getCpf());
+            stm.setString(3, consumer.getId().toString());
+            int rowsAffected = stm.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return false;
+        }
     }
 
     @Override

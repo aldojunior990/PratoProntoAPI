@@ -32,6 +32,19 @@ public class CustomerRepository implements CustomerGateway {
     }
 
     @Override
+    public boolean delete(String id) {
+        String sql = "DELETE FROM cliente WHERE id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, id);
+            int rowsAffected = stm.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public UserDetails findByEmail(String email) {
         String sql = "select * from cliente C where C.email = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
