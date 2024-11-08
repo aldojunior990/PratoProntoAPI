@@ -29,6 +29,7 @@ public class SaveProduct implements UseCaseContract<HttpRequestDTO<SaveProductDT
     public ResponseEntity<String> execute(HttpRequestDTO<SaveProductDTO> data) {
         try {
             Customer customer = extractTokenAndReturnCustomer.execute(data.request());
+
             Restaurant restaurant = restaurantGateway.findById(customer.getId().toString());
 
             Product product = Product.create(data.content().name(), data.content().description(), data.content().price(), data.content().state(), restaurant);

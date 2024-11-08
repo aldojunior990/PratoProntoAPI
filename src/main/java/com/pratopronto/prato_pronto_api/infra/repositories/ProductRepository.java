@@ -58,7 +58,7 @@ public class ProductRepository implements ProductGateway {
 
     @Override
     public boolean delete(Product product) {
-        String sql = "DELETE FROM produto WHERE id = ? and id_restaurante=?";
+        String sql = "DELETE FROM produto WHERE id = ? and id_restaurante = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setString(1, product.getId().toString());
             stm.setString(2, product.getRestaurant().toString());
