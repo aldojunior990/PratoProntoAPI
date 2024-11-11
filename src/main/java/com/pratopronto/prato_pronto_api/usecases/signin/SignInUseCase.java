@@ -2,6 +2,7 @@ package com.pratopronto.prato_pronto_api.usecases.signin;
 
 import com.pratopronto.prato_pronto_api.configs.security.TokenService;
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
+import com.pratopronto.prato_pronto_api.domain.customer.CustomerDetails;
 import com.pratopronto.prato_pronto_api.domain.customer.CustomerGateway;
 import com.pratopronto.prato_pronto_api.usecases.UseCaseContract;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,19 @@ public class SignInUseCase implements UseCaseContract<SignInInputDto, ResponseEn
 
     @Override
     public ResponseEntity<SignInOutputDto> execute(SignInInputDto input) {
+        try {
+            var customerHasAccount = (Customer) repository.findByEmail(input.email());
 
-        var customerHasAccount = repository.findByEmail(input.email());
-        if (customerHasAccount != null) {
-            var customer = new UsernamePasswordAuthenticationToken(input.email(), input.password());
-            var auth = this.authenticationManager.authenticate(customer);
-            var token = tokenService.generateToken((Customer) auth.getPrincipal());
-            return ResponseEntity.ok(new SignInOutputDto(token));
+            if (customerHasAccount != null) {
+                CustomerDetails customerDetails = repository.findCustomerDetails(customerHasAccount.getId());
+                var customer = new UsernamePasswordAuthenticationToken(input.email(), input.password());
+                var auth = this.authenticationManager.authenticate(customer);
+                var token = tokenService.generateToken((Customer) auth.getPrincipal());
+                return ResponseEntity.ok(new SignInOutputDto(token, customerDetails));
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception err) {
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new SignInOutputDto("Usuário não encontrado"));
-
-
     }
 }

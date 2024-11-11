@@ -27,18 +27,16 @@ public class ConsumerSignUpUseCase implements UseCaseContract<ConsumerSignUpDTO,
             if (customerRepository.findByEmail(input.email()) != null)
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Consumidor já cadastrado");
 
+            System.out.println(input);
+
             String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
 
             Customer customer = Customer.create(input.email(), encryptedPassword);
 
             Consumer consumer = Consumer.with(customer.getId(), input.name(), input.lastName(), input.cpf());
 
-            customerRepository.save(customer);
-
-            consumerRepository.save(consumer);
-
+            customerRepository.saveNewConsumer(customer, consumer);
             return ResponseEntity.ok().build();
-
         } catch (Exception err) {
             err.printStackTrace();
             return ResponseEntity.internalServerError().build();

@@ -1,15 +1,15 @@
 package com.pratopronto.prato_pronto_api.infra.repositories;
 
+import com.pratopronto.prato_pronto_api.domain.consumer.Consumer;
 import com.pratopronto.prato_pronto_api.domain.customer.Customer;
+import com.pratopronto.prato_pronto_api.domain.customer.CustomerDetails;
 import com.pratopronto.prato_pronto_api.domain.customer.CustomerGateway;
+import com.pratopronto.prato_pronto_api.domain.restaurant.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.UUID;
 
 @Repository
@@ -64,5 +64,68 @@ public class CustomerRepository implements CustomerGateway {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean saveNewConsumer(Customer customer, Consumer consumer) {
+        String sql = "CALL salva_novo_cliente_consumidor(?,?,?,?,?,?)";
+        try (CallableStatement stm = connection.prepareCall(sql)) {
+            stm.setString(1, customer.getId().toString());
+            stm.setString(2, customer.getEmail());
+            stm.setString(3, customer.getPassword());
+            stm.setString(4, consumer.getName());
+            stm.setString(5, consumer.getLastName());
+            stm.setString(6, consumer.getCpf());
+
+            stm.executeUpdate();
+
+            return true;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean saveNewRestaurant(Customer customer, Restaurant restaurant) {
+        String sql = "CALL salva_novo_cliente_restaurante(?,?,?,?,?)";
+        try (CallableStatement stm = connection.prepareCall(sql)) {
+            stm.setString(1, customer.getId().toString());
+            stm.setString(2, customer.getEmail());
+            stm.setString(3, customer.getPassword());
+            stm.setString(4, restaurant.getName());
+            stm.setString(5, restaurant.getCookingType());
+
+            stm.executeUpdate();
+
+            return true;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public CustomerDetails findCustomerDetails(UUID id) {
+        String sql = "CALL GetUserDetails(?)";
+        try (CallableStatement stm = connection.prepareCall(sql)) {
+            stm.setString(1, id.toString());
+            CustomerDetails customerDetails = null;
+            try (ResultSet rs = stm.executeQuery()) {
+                while (rs.next()) {
+                    String customerID = rs.getString("id");
+                    String email = rs.getString("email");
+                    String username = rs.getString("username");
+                    String role = rs.getString("role");
+                    customerDetails = new CustomerDetails(customerID, email, username, role);
+                }
+                rs.close();
+                return customerDetails;
+            }
+
+        } catch (Exception err) {
+            err.printStackTrace();
+            return null;
+        }
     }
 }

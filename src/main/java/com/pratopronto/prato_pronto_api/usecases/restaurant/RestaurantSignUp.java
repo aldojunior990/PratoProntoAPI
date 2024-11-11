@@ -30,9 +30,7 @@ public class RestaurantSignUp implements UseCaseContract<SignUpRestaurantDTO, Re
 
             Restaurant restaurant = Restaurant.with(customer.getId(), input.name(), input.cookingType(), 0.0);
 
-            customerGateway.save(customer);
-
-            Boolean isSaved = restaurantGateway.save(restaurant);
+            boolean isSaved = customerGateway.saveNewRestaurant(customer, restaurant);
 
             if (!isSaved) return ResponseEntity.badRequest().body("Não foi possivel cadastrar o restaurante");
 
