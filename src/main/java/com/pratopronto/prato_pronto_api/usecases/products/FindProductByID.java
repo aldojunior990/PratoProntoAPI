@@ -20,11 +20,12 @@ public class FindProductByID implements UseCaseContract<String, ResponseEntity<P
 
             Product product = productGateway.findById(data);
 
-            if (product == null) return ResponseEntity.badRequest().build();
+            if (product.getRestaurant() == null) return ResponseEntity.badRequest().build();
 
             return ResponseEntity.ok(new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getState(), product.getRestaurant().getId().toString()));
 
         } catch (Exception err) {
+            err.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

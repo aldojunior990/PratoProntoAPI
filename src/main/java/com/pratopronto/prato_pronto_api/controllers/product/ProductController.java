@@ -61,7 +61,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> delete(@PathVariable String id) {
+    public ResponseEntity<ProductDTO> getByID(@PathVariable String id) {
         return findProductByID.execute(id);
     }
 

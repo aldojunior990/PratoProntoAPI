@@ -61,7 +61,7 @@ public class ProductRepository implements ProductGateway {
         String sql = "DELETE FROM produto WHERE id = ? and id_restaurante = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setString(1, product.getId().toString());
-            stm.setString(2, product.getRestaurant().toString());
+            stm.setString(2, product.getRestaurant().getId().toString());
             int rowsAffected = stm.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception err) {
