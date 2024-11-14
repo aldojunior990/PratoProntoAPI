@@ -1,6 +1,15 @@
 create database prato_pronto;
 use prato_pronto;
 
+ALTER TABLE pedidos 
+ADD CONSTRAINT fk_restaurante_pedido 
+FOREIGN KEY (id_restaurante) REFERENCES restaurante(id) ON DELETE CASCADE;
+
+ALTER TABLE pedidos 
+ADD CONSTRAINT fk_consumidor_pedido 
+FOREIGN KEY (id_consumidor) REFERENCES consumidor(id) ON DELETE CASCADE;
+
+
 create table cliente(
 	id char(36) default (uuid()),
 	email varchar(150) unique not null,
@@ -81,7 +90,7 @@ create table produto(
     constraint fk_restaurante_prato foreign key (id_restaurante) references restaurante(id) on delete cascade
 );
 
-    create table pedidos(
+create table pedidos(
         id char(36) not null default (uuid()),
         data_hora datetime not null,
         stats varchar (50) not null,
@@ -93,7 +102,7 @@ create table produto(
         constraint pk_pedido primary key (id),
         constraint fk_restaurante_pedido foreign key (id_restaurante) references restaurante(id) on delete set null,
         constraint fk_consumidor_pedido foreign key (id_consumidor) references consumidor(id) on delete set null
-    );
+);
 
 create table item_pedido(
 	id_pedido char(36) not null,
