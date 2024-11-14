@@ -41,7 +41,7 @@ public class FindProducts implements UseCaseContract<HttpServletRequest, Respons
             List<Product> products = productGateway.findAllByRestaurant(restaurant);
 
             for (Product it : products) {
-                response.add(new ProductDTO(it.getId(), it.getName(), it.getDescription(), it.getPrice(), it.getState(), it.getRestaurant().getId().toString()));
+                response.add(new ProductDTO(it.getId(), it.getName(), it.getDescription(), it.getPrice(), it.getState(), restaurant.getId().toString()));
             }
 
             return ResponseEntity.ok(response);

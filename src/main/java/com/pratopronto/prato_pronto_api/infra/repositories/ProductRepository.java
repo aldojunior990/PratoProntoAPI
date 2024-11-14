@@ -109,7 +109,28 @@ public class ProductRepository implements ProductGateway {
                 String description = rs.getString("descricao");
                 Double price = rs.getDouble("preco");
                 String stats = rs.getString("stats");
-                product = Product.with(UUID.fromString(id), name, description, price, stats, null);
+                String restaurantID = rs.getString("id_restaurante");
+
+                String restaurantSQL = "select * from restaurante R where R.id = ?";
+
+                try (PreparedStatement restaurantStm = connection.prepareStatement(restaurantSQL)) {
+                    Restaurant restaurant = null;
+                    restaurantStm.setString(1, restaurantID);
+                    ResultSet restaurantRS = restaurantStm.executeQuery();
+
+                    while (restaurantRS.next()) {
+                        String restaurantId = restaurantRS.getString("id");
+                        String resName = restaurantRS.getString("nome");
+                        String cookingType = restaurantRS.getString("tipo_culinaria");
+                        Double grade = restaurantRS.getDouble("avaliacao");
+                        restaurant = Restaurant.with(UUID.fromString(restaurantId), resName, cookingType, grade);
+                    }
+                    restaurantRS.close();
+                    product = Product.with(UUID.fromString(id), name, description, price, stats, restaurant);
+                } catch (Exception err) {
+                    err.printStackTrace();
+                    throw new Exception(err);
+                }
             }
             rs.close();
             return product;

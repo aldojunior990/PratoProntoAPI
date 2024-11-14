@@ -13,8 +13,6 @@ begin
     begin 
 		rollback;
 	end;
-    
-    set autocommit = 0;
     start transaction;
 	insert into cliente values (id, email, senha);
     insert into consumidor values (id, nome, sobrenome, cpf);

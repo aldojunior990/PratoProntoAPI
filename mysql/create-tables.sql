@@ -81,19 +81,19 @@ create table produto(
     constraint fk_restaurante_prato foreign key (id_restaurante) references restaurante(id) on delete cascade
 );
 
-create table pedidos(
-	id char(36) not null default (uuid()),
-    data_hora datetime not null,
-    stats varchar (50) not null, 
-    forma_pagamento varchar(50) not null,
-    valor_total decimal(10,2),
-    id_consumidor char(36),
-    id_restaurante char(36),
-    
-	constraint pk_pedido primary key (id),
-	constraint fk_restaurante_pedido foreign key (id_restaurante) references restaurante(id) on delete set null,
-	constraint fk_consumidor_pedido foreign key (id_consumidor) references consumidor(id) on delete set null
-);
+    create table pedidos(
+        id char(36) not null default (uuid()),
+        data_hora datetime not null,
+        stats varchar (50) not null,
+        forma_pagamento varchar(50) not null,
+        valor_total decimal(10,2),
+        id_consumidor char(36),
+        id_restaurante char(36),
+
+        constraint pk_pedido primary key (id),
+        constraint fk_restaurante_pedido foreign key (id_restaurante) references restaurante(id) on delete set null,
+        constraint fk_consumidor_pedido foreign key (id_consumidor) references consumidor(id) on delete set null
+    );
 
 create table item_pedido(
 	id_pedido char(36) not null,
